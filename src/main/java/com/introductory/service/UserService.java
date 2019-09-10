@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,13 +19,26 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+//    @Autowired
+//    private MailSender mailSender;
+
     @Autowired
-    private MailSender mailSender;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return user;
     }
+//    //OLD METHOD
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        return userRepository.findByUsername(username);
+//    }
 
     public boolean addUser(User user) {
         User userFromDb = userRepository.findByUsername(user.getUsername());
@@ -36,32 +50,33 @@ public class UserService implements UserDetailsService {
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-        user.setActivationCode (UUID.randomUUID().toString());
+//        user.setActivationCode (UUID.randomUUID().toString());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format(
-                    "Hello, %s! \n" +
-                            "Please, visit next link: http://localhost:8080/activate/%s",
-                    user.getUsername(),
-                    user.getActivationCode()
-            );
+//        if (!StringUtils.isEmpty(user.getEmail())) {
+//            String message = String.format(
+//                    "Hello, %s! \n" +
+//                            "Please, visit next link: http://localhost:8080/activate/%s",
+//                    user.getUsername(),
+//                    user.getActivationCode()
+//            );
+//
+//            mailSender.send(user.getEmail(), "Activation code", message);
+//        }
+//
+//        return true;
+//    }
+//
+//    public boolean activateUser(String code) {
+//        User user = userRepository.findByActivationCode(code);
+//        if (user == null) {
+//            return false;
+//        }
+//
+//        user.setActivationCode(null);
 
-            mailSender.send(user.getEmail(), "Activation code", message);
-        }
-
-        return true;
-    }
-
-    public boolean activateUser(String code) {
-        User user = userRepository.findByActivationCode(code);
-        if (user == null) {
-            return false;
-        }
-
-        user.setActivationCode(null);
-
-        userRepository.save(user);
+//        userRepository.save(user);
 
         return true;
     }

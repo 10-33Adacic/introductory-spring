@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
@@ -17,33 +19,34 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "validation.username")
     private String username;
+    @NotBlank(message = "validation.password")
     private String password;
+    @Transient
+    @NotBlank(message = "validation.password")
+    private String passwordConfirm;
     private boolean active;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getActivationCode() {
-        return activationCode;
-    }
-
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
-    }
-
+    @Email(message = "validate.email.incorrect.input")
+    @NotBlank(message = "validation.email")
     private String email;
-    private String activationCode;
-
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+//    public String getActivationCode() {
+//        return activationCode;
+//    }
+//
+//    public void setActivationCode(String activationCode) {
+//        this.activationCode = activationCode;
+//    }
+
+
+//    private String activationCode;
+
+
 
     //TODO delete setters and getters, use Lombok
 
@@ -114,5 +117,13 @@ public class User implements UserDetails{
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
