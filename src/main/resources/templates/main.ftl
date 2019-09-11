@@ -13,24 +13,24 @@
 <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     Add new Message
 </a>
-<div class="collapse <#if message??>show</#if>" id="collapseExample">
+<div class="collapse <#if speciality??>show</#if>" id="collapseExample">
     <div class="form-group mt-3">
         <form method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <input type="text" class="form-control ${(textError??)?string('is-invalid', '')}"
-                       value="<#if message??>${message.text}</#if>" name="text" placeholder="Введите сообщение" />
-                <#if textError??>
+                <input type="text" class="form-control ${(descriptionError??)?string('is-invalid', '')}"
+                       value="<#if speciality??>${speciality.description}</#if>" name="description" placeholder="Введите описание" />
+                <#if descriptionError??>
                     <div class="invalid-feedback">
-                    ${textError}
+                    ${descriptionError}
                     </div>
                 </#if>
             </div>
             <div class="form-group">
                 <input type="text" class="form-control"
-                       value="<#if message??>${message.tag}</#if>" name="tag" placeholder="Тэг">
-                <#if tagError??>
+                       value="<#if speciality??>${speciality.specialityName}</#if>" name="specialityName" placeholder="Название специальности">
+                <#if specialityNameError??>
                     <div class="invalid-feedback">
-                    ${tagError}
+                    ${specialityNameError}
                     </div>
                 </#if>
             </div>
@@ -49,21 +49,21 @@
 </div>
 
 <div class="card-columns">
-    <#list messages as message>
+    <#list messages as speciality>
         <div class="card my-3">
-            <#if message.filename??>
-                <img src="/img/${message.filename}" class="card-img-top">
+            <#if speciality.filename??>
+                <img src="/img/${speciality.filename}" class="card-img-top">
             </#if>
             <div class="m-2">
-                <span>${message.text}</span>
-                <i>${message.tag}</i>
+                <span>${speciality.description}</span>
+                <i>${speciality.specialityName}</i>
             </div>
             <div class="card-footer text-muted">
-            ${message.authorName}
+            ${speciality.authorName}
             </div>
         </div>
     <#else>
-        No message
+        No speciality
     </#list>
 </div>
 </@c.page>

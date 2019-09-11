@@ -1,6 +1,6 @@
 -- create sequence hibernate_sequence start 1 increment 1;
 --
--- create table message (
+-- create table speciality (
 --     id int8 not null,
 --     filename varchar(255),
 --     tag varchar(255),
@@ -24,7 +24,7 @@
 --     primary key (id)
 -- );
 --
--- alter table if exists message
+-- alter table if exists speciality
 --     add constraint message_user_fk
 --     foreign key (user_id) references usr;
 --

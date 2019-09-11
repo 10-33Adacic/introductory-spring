@@ -10,7 +10,7 @@
 
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
+        <@spring.message "specialities"></@spring.message>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
             <button class="dropdown-item" type="button">Action</button>
@@ -25,7 +25,7 @@
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/main"><@spring.message "Messages"></@spring.message></a>
+                <a class="nav-link" href="/main"><@spring.message "speciality"></@spring.message></a>
             </li>
         <#if isAdmin>
             <li class="nav-item">
@@ -44,11 +44,11 @@
         <div class="navbar-text mr-3">
         <a href="?lang=ua">
             <img alt="Українська" src="/static/images/ukraine_icon_64.png" title="Ukrainian" width="50" height="30" border="0"/>
-        <#--<@spring.message "lang.ua"/>-->
+        <#--<@spring.speciality "lang.ua"/>-->
         </a>
         <a href="?lang=en">
             <img alt="Англійська" src="/static/images/united_kingdom_icon_64.png" title="English" width="50" height="30" border="0"/>
-        <#--<@spring.message "lang.eng"/>-->
+        <#--<@spring.speciality "lang.eng"/>-->
         </a>
         </div>
         <@l.logout />
